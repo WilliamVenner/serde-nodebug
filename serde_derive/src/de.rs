@@ -636,9 +636,19 @@ fn deserialize_seq(
         .filter(|field| !field.attrs.skip_deserializing())
         .count();
     let expecting = if deserialized_count == 1 {
-        format!("{} with 1 element", expecting)
+        #[cfg(debug_assertions)] {
+            format!("{} with 1 element", expecting)
+        }
+        #[cfg(not(debug_assertions))] {
+            "invalid".to_string()
+        }
     } else {
-        format!("{} with {} elements", expecting, deserialized_count)
+        #[cfg(debug_assertions)] {
+            format!("{} with {} elements", expecting, deserialized_count)
+        }
+        #[cfg(not(debug_assertions))] {
+            "invalid".to_string()
+        }
     };
     let expecting = cattrs.expecting().unwrap_or(&expecting);
 
@@ -739,9 +749,19 @@ fn deserialize_seq_in_place(
         .filter(|field| !field.attrs.skip_deserializing())
         .count();
     let expecting = if deserialized_count == 1 {
-        format!("{} with 1 element", expecting)
+        #[cfg(debug_assertions)] {
+            format!("{} with 1 element", expecting)
+        }
+        #[cfg(not(debug_assertions))] {
+            "invalid".to_string()
+        }
     } else {
-        format!("{} with {} elements", expecting, deserialized_count)
+        #[cfg(debug_assertions)] {
+            format!("{} with {} elements", expecting, deserialized_count)
+        }
+        #[cfg(not(debug_assertions))] {
+            "invalid".to_string()
+        }
     };
     let expecting = cattrs.expecting().unwrap_or(&expecting);
 
